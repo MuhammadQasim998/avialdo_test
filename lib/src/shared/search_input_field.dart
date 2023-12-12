@@ -72,9 +72,7 @@ class SearchInputField extends StatelessWidget {
               BoxDecoration(
                 color: AppColors.grey.withOpacity(0.5),
                 border: Border.all(
-                  color: (controller.text == "")
-                      ? AppColors.grey
-                      : AppColors.appPrimary,
+                  color: AppColors.appPrimary,
                 ),
                 borderRadius: BorderRadius.circular(50),
               ),
@@ -136,19 +134,15 @@ class SearchInputField extends StatelessWidget {
                       hintText: hint,
                       hintStyle: TextStyling.mediumRegular.copyWith(
                           fontSize: 12.sp,
-                          color: hintBold == true
-                              ? AppColors.black
-                              : AppColors.grey),
+                          color: AppColors.black.withOpacity(0.5)),
                       hintMaxLines: 1,
                       contentPadding:
                           const EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
                     ),
                     cursorColor: AppColors.primary,
                     cursorHeight: 20,
-                    style: TextStyling.mediumRegular.copyWith(
-                        color: controller.text == ""
-                            ? AppColors.grey
-                            : AppColors.black),
+                    style: TextStyling.mediumRegular
+                        .copyWith(color: AppColors.black),
                   ),
                 ),
               ),

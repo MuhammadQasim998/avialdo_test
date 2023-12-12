@@ -7,7 +7,6 @@ import 'package:recipe_app/src/styles/app_colors.dart';
 import 'package:recipe_app/src/views/home_view.dart';
 import 'package:recipe_app/src/views/recipe_detail_view.dart';
 import 'package:recipe_app/src/views/search_by_ingredients.dart';
-import 'package:recipe_app/src/views/search_by_name.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,10 +24,10 @@ class MyApp extends StatelessWidget {
       builder: (context, snapshot) {
         return MultiBlocProvider(
           providers: [
+            //Bloc provider for search bloc
             BlocProvider<SearchBloc>(
               create: (context) => SearchBloc(),
             ),
-            // Add other BlocProviders if needed
           ],
           child: MaterialApp(
             title: 'Flutter Demo',
@@ -51,9 +50,9 @@ class MyApp extends StatelessWidget {
               ),
               fontFamily: 'Poppins',
             ),
-            home: const HomeView(),
+            //Default View
+            home: HomeView(),
             routes: {
-              SearchByName.routeName: (ctx) => const SearchByName(),
               SearchByIngredients.routeName: (ctx) =>
                   const SearchByIngredients(),
               RecipeDetailsPage.routeName: (ctx) => RecipeDetailsPage(),

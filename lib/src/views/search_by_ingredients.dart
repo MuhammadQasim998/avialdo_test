@@ -54,39 +54,58 @@ class _SearchByIngredientsState extends State<SearchByIngredients> {
                   width: MediaQuery.of(context).size.width * 0.8,
                   controller: searchByIngredientsController,
                   onChanged: (value) {
+                    //Add a SearchByIngredientsEvent to the SearchBloc to initiate the search and updates the UI accordingly
                     _searchBloc.add(SearchByIngredientsEvent(value));
                   },
                 ),
               ),
+
+              //It listens to changes in the Search State and updates the UI accordingly
               BlocBuilder<SearchBloc, SearchState>(
                 builder: (context, state) {
+                  //condition for checking if the state is in loading state so loader will display
                   if (state is SearchLoadingState) {
-                    return Center(
-                      child: SizedBox(
-                        height: 30.h,
-                        width: 30.w,
-                        child: CircularProgressIndicator(
-                          color: AppColors.appPrimary,
+                    return Padding(
+                      padding: EdgeInsets.only(top: 30.h),
+                      child: Center(
+                        child: SizedBox(
+                          height: 30.h,
+                          width: 30.w,
+                          child: CircularProgressIndicator(
+                            color: AppColors.appPrimary,
+                          ),
                         ),
                       ),
                     );
-                  } else if (state is SearchErrorState) {
-                    return Center(
-                      child: Text(
-                        state.error,
-                        style: TextStyling.mediumBold
-                            .copyWith(color: AppColors.black, fontSize: 18.sp),
+                  }
+
+                  //condition for checking if the state returns an error
+                  else if (state is SearchErrorState) {
+                    return Padding(
+                      padding: EdgeInsets.only(top: 30.h),
+                      child: Center(
+                        child: Text(
+                          state.error,
+                          style: TextStyling.mediumBold.copyWith(
+                              color: AppColors.black, fontSize: 18.sp),
+                        ),
                       ),
                     );
-                  } else if (state is SearchSuccessState) {
+                  }
+
+                  //condition for checking if the state returns success so display the UI accordingly.
+                  else if (state is SearchSuccessState) {
                     List<RecipeInfoModel> recipeInfoList = state.recipeInfoList;
 
                     return recipeInfoList.isEmpty
-                        ? Center(
-                            child: Text(
-                              "Oops! No data found",
-                              style: TextStyling.mediumBold.copyWith(
-                                  color: AppColors.black, fontSize: 18.sp),
+                        ? Padding(
+                            padding: EdgeInsets.only(top: 30.h),
+                            child: Center(
+                              child: Text(
+                                "Oops! No data found",
+                                style: TextStyling.mediumBold.copyWith(
+                                    color: AppColors.black, fontSize: 18.sp),
+                              ),
                             ),
                           )
                         : ListView.builder(
@@ -118,11 +137,13 @@ class _SearchByIngredientsState extends State<SearchByIngredients> {
                                                 0.8,
                                             height: 100.h,
                                             decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.only(
-                                                    topLeft:
-                                                        Radius.circular(20),
-                                                    topRight:
-                                                        Radius.circular(20)),
+                                                borderRadius:
+                                                    const BorderRadius.only(
+                                                        topLeft:
+                                                            Radius.circular(20),
+                                                        topRight:
+                                                            Radius.circular(
+                                                                20)),
                                                 image: DecorationImage(
                                                     image: NetworkImage(
                                                         recipeInfoList[index]
@@ -185,6 +206,7 @@ class _SearchByIngredientsState extends State<SearchByIngredients> {
                                                   child: MainButton(
                                                     text: "View Details",
                                                     onTap: () {
+                                                      //Adding bloc event to navigate to details page
                                                       _searchBloc.add(
                                                         NavigateToDetailsEvent(
                                                             recipeInfoList[
@@ -222,7 +244,7 @@ class _SearchByIngredientsState extends State<SearchByIngredients> {
                   }
 
                   // Default return if no state matches
-                  return SizedBox.shrink();
+                  return const SizedBox.shrink();
                 },
               ),
             ],
